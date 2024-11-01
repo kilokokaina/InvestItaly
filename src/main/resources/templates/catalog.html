@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <script th:src="@{/resources/assets/js/color-modes.js}"></script>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.122.0">
+
+        <title>InvestItaly - Каталог</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/album/">
+        <link th:href="@{/resources/assets/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+        <style th:insert="~{partial/toogle-theme :: toogle-theme-style}"></style>
+    </head>
+    <body>
+        <div th:insert="~{partial/toogle-theme :: toogle-theme}"></div>
+
+        <header data-bs-theme="dark">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">InvestItaly</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/}">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" th:href="@{/catalog}">Каталог</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">О нас</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            <button class="btn btn-primary">Контакты</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section class="py-5 text-center container">
+                <div class="row py-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 class="fw-light">Каталог недвижимости</h1>
+                        <p class="lead text-body-secondary">Выбирете подходящую недвижимость, коммерческую или жилую.</p>
+                        <p>
+                            <a th:href="@{/catalog(type=RESIDENTIAL)}" class="btn btn-primary my-2">Жилая недвижимость</a>
+                            <a th:href="@{/catalog(type=COMMERCIAL)}" class="btn btn-secondary my-2">Коммерческая недвижимость</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="album py-5 bg-body-tertiary">
+                <div class="container">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div class="col" th:each="advertise : ${advertises}">
+                            <div class="card shadow-sm">
+                                <img class="bd-placeholder-img card-img-top rounded" width="320" height="250" role="img" alt="Placeholder: Thumbnail"
+                                     th:src="${advertise.getThumbnail() != null ? '/img/' + advertise.getThumbnail().getFileName() : '/resources/images/add-1.webp'}">
+                                <div class="card-body">
+                                    <h6 class="card-title"><a th:text="${advertise.getTitle()}" th:href="${'/advertise/' + advertise.getId()}" /></h6>
+                                    <p class="card-text" th:text="${advertise.getPlacement()}" />
+                                    <p class="text-body-secondary">1 кровать · 1 ванна · 1100 кв. фут</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <b th:text="${advertise.getPricePerSquare() * advertise.getSquare()}" />
+                                        <small class="text-body-secondary">Доступно</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-body-secondary py-5">
+            <div class="container">
+                <p class="float-end mb-1">
+                    <a href="#">Наверх</a>
+                </p>
+                <p class="mb-0">Invest Italy Srl</p>
+                <p class="mb-0">Юридический адрес и штаб-квартира: Viale Rimembranze 106, Sesto San Giovanni (MI), CAP 20099.</p>
+                <p class="mb-0">Телефон : +39 327 299 4672</p>
+                <p class="mb-0">Электронная почта: info@investitalysrl.com</p>
+            </div>
+        </footer>
+        <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
+    </body>
+</html>
