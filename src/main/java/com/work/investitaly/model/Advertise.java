@@ -26,6 +26,9 @@ public class Advertise {
     private float square;
     private float pricePerSquare;
 
+    private int bedroomCount;
+    private int bathroomCount;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "add_photos", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "file_id")

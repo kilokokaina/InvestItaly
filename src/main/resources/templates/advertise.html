@@ -17,6 +17,9 @@
         <style th:insert="~{partial/toogle-theme :: toogle-theme-style}"></style>
 
         <link th:href="@{/resources/style/carousel.css}" rel="stylesheet">
+
+        <link th:href="@{/resources/leaflet/leaflet.css}" rel="stylesheet">
+        <script th:src="@{/resources/leaflet/leaflet.js}"></script>
         
         <style>
             @media (max-width: 991px) {
@@ -42,6 +45,8 @@
                     display: flex !important;
                 }
             }
+
+            #map { height: 320px; }
         </style>
     </head>
     <body>
@@ -108,11 +113,11 @@
                 <div class="col">
                     <div id="carouselExampleIndicators" class="carousel slide mb-3">
                         <div class="carousel-indicators">
-                            <button th:each="image, i : ${advertise.getPhotos()}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="${i.index}"
+                            <button th:each="image, i : ${advertise.getPhotos()}" th:if="${i.index < 4}" type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="${i.index}"
                                     th:class="${i.index == 0} ? 'active'" th:aria-current="${i.index == 0} ? 'true'" th:aria-label="'Slide ' + ${i.index + 1}"></button>
                         </div>
                         <div class="carousel-inner">
-                            <div th:each="image, i : ${advertise.getPhotos()}" th:class="${i.index == 0} ? 'carousel-item active' : 'carousel-item'"
+                            <div th:each="image, i : ${advertise.getPhotos()}" th:if="${i.index < 4}" th:class="${i.index == 0} ? 'carousel-item active' : 'carousel-item'"
                                  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                 <img th:src="'/img/' + ${image.getFileName()}" class="d-block w-100" alt="...">
                             </div>
@@ -128,7 +133,7 @@
                     </div>
 
                     <div class="d-lg-flex d-none justify-content-center">
-                        <a th:each="image, i : ${advertise.getPhotos()}" th:data-bs-slide-to="${i.index}" data-bs-target="#carouselExampleIndicators" class="ms-2">
+                        <a th:each="image, i : ${advertise.getPhotos()}" th:if="${i.index < 4}" th:data-bs-slide-to="${i.index}" data-bs-target="#carouselExampleIndicators" class="ms-2">
                             <img th:src="'/img/' + ${image.getFileName()}" class="object-fit-cover border rounded image-thumb" alt="Product-img" />
                         </a>
                     </div>
@@ -178,7 +183,10 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card text-center mb-3 sticky-top" style="width: 18rem;">
+                        <div class="card mb-3">
+                            <div id="map"></div>
+                        </div>
+                        <div class="card text-center mb-3" style="width: 18rem;">
                             <div class="card-body">
                                 <div class="mb-3">
                                     <h5 class="card-title">Джордж</h5>
@@ -296,5 +304,7 @@
             </footer>
         </main>
         <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/resources/leaflet/leaflet.js}"></script>
+        <script th:src="@{/resources/js/mapInit.js}"></script>
     </body>
 </html>
