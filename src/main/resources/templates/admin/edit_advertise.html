@@ -151,8 +151,8 @@
                             <div class="mb-3">
                                 <label for="advertiseType" class="form-label">Тип недвижимости</label>
                                 <select class="form-select" id="advertiseType" th:value="${advertise.getType()}" name="type" aria-label="Default select example">
-                                    <option value="RESIDENTIAL">Жилая</option>
-                                    <option value="COMMERCIAL">Коммерческая</option>
+                                    <option value="RESIDENTIAL" th:selected="${advertise.getType().name() == 'RESIDENTIAL'}">Жилая</option>
+                                    <option value="COMMERCIAL" th:selected="${advertise.getType().name() == 'COMMERCIAL'}">Коммерческая</option>
                                 </select>
                             </div>
                             <div class="row mb-3">
