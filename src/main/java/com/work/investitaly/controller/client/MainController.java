@@ -1,6 +1,7 @@
 package com.work.investitaly.controller.client;
 
 import com.work.investitaly.model.Advertise;
+import com.work.investitaly.model.FileModel;
 import com.work.investitaly.model.RealEstateType;
 import com.work.investitaly.service.AdvertiseService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -39,7 +45,6 @@ public class MainController {
                         advertise.getType().equals(RealEstateType.COMMERCIAL)).toList();
             }
         }
-
         model.addAttribute("advertises", advertises);
 
         return "catalog";
@@ -47,7 +52,12 @@ public class MainController {
 
     @GetMapping("advertise/{id}")
     public String advertise(@PathVariable(name = "id") Advertise advertise, Model model) {
-        model.addAttribute(advertise);
+        Set<FileModel> photos = advertise.getPhotos();
+        photos = photos.stream().sorted(Comparator.comparing(FileModel::getFileName))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        model.addAttribute("advertise", advertise);
+        model.addAttribute("photos", photos);
 
         return "advertise";
     }
