@@ -145,7 +145,7 @@
                                     <div class="card-body">
                                         <h6 class="card-title" th:text="${advertise.getPlacement()}" />
                                         <p class="card-text" th:text="${'Квадратура: ' + advertise.getSquare() + ', стоимость: ' + advertise.getPricePerSquare()}" />
-                                        <a href="#" class="btn btn-primary">Просмотр</a>
+                                        <a th:href="'/admin/edit_advertise?id=' + ${advertise.getId()}" class="btn btn-primary">Изменить</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,6 @@
 package com.work.investitaly.controller.admin;
 
+import com.work.investitaly.dto.AdvertiseDTO;
 import com.work.investitaly.model.Advertise;
 import com.work.investitaly.model.FileModel;
 import com.work.investitaly.model.RealEstateType;
@@ -10,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
@@ -45,19 +44,17 @@ public class AdminController {
     }
 
     @GetMapping("add_advertise")
-    public String addAdvertise() {
+    public String addAdvertise(Model model) {
+        model.addAttribute("advertiseForm", new AdvertiseDTO());
         return "admin/add_advertise";
     }
 
     @PostMapping("add_advertise")
-    public String addAdvertisePost(@RequestParam(name = "title") String title, @RequestParam(name = "address") String address,
-                                   @RequestParam(name = "type") int type, @RequestParam(name = "square") float square,
-                                   @RequestParam(name = "price") float price, @RequestParam(name = "description") String description,
-                                   @RequestParam(name = "files") MultipartFile[] files, @RequestParam(name = "isThumbnail") String thumbName) throws IOException {
+    public String addAdvertiseProcess(@ModelAttribute AdvertiseDTO advertiseDTO) throws IOException {
         var advertise = new Advertise();
         var addFiles = new HashSet<FileModel>();
 
-        for (var file : files) {
+        for (var file : advertiseDTO.getFiles()) {
             var dbFile = new FileModel();
 
             String fileUUID = UUID.randomUUID() + "." + file.getOriginalFilename();
@@ -71,29 +68,56 @@ public class AdminController {
             fileService.save(dbFile);
             addFiles.add(dbFile);
 
-            if (Objects.equals(file.getOriginalFilename(), thumbName)) {
+            if (Objects.equals(file.getOriginalFilename(), advertiseDTO.getThumbName())) {
                 advertise.setThumbnail(dbFile);
             }
 
             log.info(file.getOriginalFilename());
         }
 
-        advertise.setTitle(title);
-        advertise.setText(description);
-        advertise.setPlacement(address);
-        advertise.setSquare(square);
-        advertise.setPricePerSquare(price);
+        advertise.setTitle(advertiseDTO.getTitle());
+        advertise.setText(advertiseDTO.getDescription());
+        advertise.setPlacement(advertiseDTO.getAddress());
+        advertise.setSquare(advertiseDTO.getSquare());
+        advertise.setPricePerSquare(advertiseDTO.getPrice());
+        advertise.setBedroomCount(advertiseDTO.getBedroom());
+        advertise.setBathroomCount(advertiseDTO.getBathroom());
 
-        switch (type) {
-            case 1 -> advertise.setType(RealEstateType.RESIDENTIAL);
-            case 2 -> advertise.setType(RealEstateType.COMMERCIAL);
-        }
+        advertise.setType(RealEstateType.valueOf(advertiseDTO.getType()));
 
         advertise.setPhotos(addFiles);
 
         advertiseService.save(advertise);
 
         return "redirect:/admin/add_advertise";
+    }
+
+    @GetMapping("edit_advertise")
+    public String editAdvertise(@RequestParam(name = "id") long advertiseId, Model model) {
+        model.addAttribute("advertise", advertiseService.findById(advertiseId));
+        model.addAttribute("advertiseForm", new AdvertiseDTO());
+
+        return "admin/edit_advertise";
+    }
+
+    @PostMapping("edit_advertise")
+    public String editAdvertiseProcess(@RequestParam(name = "id") Long advertiseId, @ModelAttribute AdvertiseDTO advertiseDTO) {
+        log.info(String.valueOf(advertiseId));
+        log.info(advertiseDTO.toString());
+
+        var advertise = advertiseService.findById(advertiseId);
+
+        advertise.setTitle(advertiseDTO.getTitle());
+        advertise.setText(advertiseDTO.getDescription());
+        advertise.setPlacement(advertiseDTO.getAddress());
+        advertise.setSquare(advertiseDTO.getSquare());
+        advertise.setPricePerSquare(advertiseDTO.getPrice());
+        advertise.setBedroomCount(advertiseDTO.getBedroom());
+        advertise.setBathroomCount(advertiseDTO.getBathroom());
+
+        advertiseService.save(advertise);
+
+        return String.format("redirect:/admin/edit_advertise?id=%d", advertiseId);
     }
 
 }
