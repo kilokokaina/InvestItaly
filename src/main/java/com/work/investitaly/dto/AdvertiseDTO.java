@@ -20,6 +20,4 @@ public class AdvertiseDTO {
     private int bedroom;
     private int bathroom;
 
-    private MultipartFile[] files;
-
 }

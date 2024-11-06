@@ -139,18 +139,18 @@
 
                 <div class="container">
                     <div class="container">
-                        <form th:action="@{/admin/add_advertise}" enctype="multipart/form-data" method="post" th:object="${advertiseForm}">
+                        <div class="form-control">
                             <div class="mb-3">
                                 <label for="advertiseTitle" class="form-label">Название</label>
-                                <input type="text" class="form-control" id="advertiseTitle"  th:field="*{title}" placeholder="Название объявления">
+                                <input type="text" class="form-control" id="advertiseTitle" placeholder="Название объявления">
                             </div>
                             <div class="mb-3">
                                 <label for="advertisePlacement" class="form-label">Адрес недвижимости</label>
-                                <input type="text" class="form-control" id="advertisePlacement" th:field="*{address}" placeholder="Адрес">
+                                <input type="text" class="form-control" id="advertisePlacement" placeholder="Адрес">
                             </div>
                             <div class="mb-3">
                                 <label for="advertiseType" class="form-label">Тип недвижимости</label>
-                                <select class="form-select" id="advertiseType" th:field="*{type}" aria-label="Default select example">
+                                <select class="form-select" id="advertiseType" aria-label="Default select example">
                                     <option value="RESIDENTIAL" selected>Жилая</option>
                                     <option value="COMMERCIAL">Коммерческая</option>
                                 </select>
@@ -158,38 +158,38 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="advertiseSquare" class="form-label">Площадь недвижимости</label>
-                                    <input type="text" class="form-control" id="advertiseSquare" th:field="*{square}" placeholder="Площадь">
+                                    <input type="text" class="form-control" id="advertiseSquare" placeholder="Площадь">
                                 </div>
                                 <div class="col">
                                     <label for="advertisePrice" class="form-label">Стоимость за кв. метр</label>
-                                    <input type="text" class="form-control" id="advertisePrice" th:field="*{price}" placeholder="$$$">
+                                    <input type="text" class="form-control" id="advertisePrice" placeholder="$$$">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
                                     <label for="bedroomCount" class="form-label">Количество спален</label>
-                                    <input type="number" class="form-control" id="bedroomCount" th:field="*{bedroom}" placeholder="Спален">
+                                    <input type="number" class="form-control" id="bedroomCount" placeholder="Спален">
                                 </div>
                                 <div class="col">
                                     <label for="bathroomCount" class="form-label">Количество ванных комнат</label>
-                                    <input type="number" class="form-control" id="bathroomCount" th:field="*{bathroom}" placeholder="Ваннах комнат">
+                                    <input type="number" class="form-control" id="bathroomCount" placeholder="Ваннах комнат">
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="advertiseDescription" class="form-label">Описание объявления</label>
-                                <textarea class="form-control" id="advertiseDescription" th:field="*{description}" rows="15" placeholder="Текстовое описание"></textarea>
+                                <textarea class="form-control" id="advertiseDescription" rows="15" placeholder="Текстовое описание"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Прикрепить изображение</label>
-                                <input class="form-control" type="file" id="formFile" th:field="*{files}" oninput="displayFiles()" multiple>
+                                <input class="form-control" type="file" id="formFile" oninput="displayFiles()" multiple>
                             </div>
                             <div class="mb-3" id="file-list">
 
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary" type="submit">Добавить</button>
+                                <button class="btn btn-primary" onclick="addAdvertise()">Добавить</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -198,5 +198,6 @@
 
     <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/resources/js/uploadFileDisplay.js}"></script>
+    <script th:src="@{/resources/js/api/advertiseApi.js}"></script>
     </body>
 </html>

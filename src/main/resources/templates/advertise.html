@@ -72,14 +72,10 @@
                             </li>
                         </ul>
                         <div class="d-flex">
-                            <div class="dropdown">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Контакты
-                                </button>
-                                <ul class="dropdown-menu">
-
-                                </ul>
-                            </div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="popover" data-bs-title="Свяжитесь с нами!"
+                                    data-bs-content="Наш номер: +39 327 299 4672. Наша почта: info@investitalysrl.com">
+                                Контакты
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -306,5 +302,9 @@
         <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
         <script th:src="@{/resources/leaflet/leaflet.js}"></script>
         <script th:src="@{/resources/js/mapInit.js}"></script>
+        <script>
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+            const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        </script>
     </body>
 </html>

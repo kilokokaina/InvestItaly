@@ -21,7 +21,7 @@
 
         <header data-bs-theme="dark">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <div class="container-fluid">
+                <div class="container">
                     <a class="navbar-brand" href="#">InvestItaly</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -29,17 +29,20 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav me-auto mb-2 mb-md-0">
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/}">Главная</a>
+                                <a class="nav-link" aria-current="page" th:href="@{/}">Главная</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" th:href="@{/catalog}">Каталог</a>
+                                <a class="nav-link active" href="#">Каталог</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">О нас</a>
+                                <a class="nav-link" th:href="@{/about}">О нас</a>
                             </li>
                         </ul>
                         <div class="d-flex">
-                            <button class="btn btn-primary">Контакты</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="popover" data-bs-title="Свяжитесь с нами!"
+                                    data-bs-content="Наш номер: +39 327 299 4672. Наша почта: info@investitalysrl.com">
+                                Контакты
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -70,7 +73,7 @@
                                 <div class="card-body">
                                     <h6 class="card-title"><a th:text="${advertise.getTitle()}" th:href="${'/advertise/' + advertise.getId()}" /></h6>
                                     <p class="card-text" th:text="${advertise.getPlacement()}" />
-                                    <p class="text-body-secondary">1 кровать · 1 ванна · 1100 кв. фут</p>
+                                    <p class="text-body-secondary" th:text="${advertise.getBedroomCount()} + ' спальня · ' + ${advertise.getBathroomCount()} + ' ванная комната · ' + ${advertise.getSquare()} + ' кв. метров'" />
                                     <div class="d-flex justify-content-between align-items-center">
                                         <b th:text="${advertise.getPricePerSquare() * advertise.getSquare()}" />
                                         <small class="text-body-secondary">Доступно</small>
@@ -95,5 +98,9 @@
             </div>
         </footer>
         <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
+        <script>
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+            const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        </script>
     </body>
 </html>

@@ -23,7 +23,7 @@
 
         <header data-bs-theme="dark">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <div class="container-fluid">
+                <div class="container">
                     <a class="navbar-brand" href="#">InvestItaly</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -37,11 +37,14 @@
                                 <a class="nav-link" th:href="@{/catalog}">Каталог</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">О нас</a>
+                                <a class="nav-link" th:href="@{/about}">О нас</a>
                             </li>
                         </ul>
                         <div class="d-flex">
-                            <button class="btn btn-primary">Контакты</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="popover" data-bs-title="Свяжитесь с нами!"
+                                    data-bs-content="Наш номер: +39 327 299 4672. Наша почта: info@investitalysrl.com">
+                                Контакты
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -184,5 +187,9 @@
             </footer>
         </main>
         <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
+        <script>
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+            const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        </script>
     </body>
 </html>

@@ -1,5 +1,6 @@
 package com.work.investitaly.service;
 
+import com.work.investitaly.exception.AdvertiseNotFound;
 import com.work.investitaly.model.Advertise;
 
 import java.util.List;
@@ -7,9 +8,10 @@ import java.util.List;
 public interface AdvertiseService {
 
     Advertise save(Advertise advertise);
-    Advertise findById(Long id);
+    Advertise update(Advertise advertise) throws AdvertiseNotFound;
+    Advertise findById(Long id) throws AdvertiseNotFound;
     List<Advertise> findAll();
-    void delete(Advertise advertise);
-    void deleteById(Long id);
+    void delete(Advertise advertise) throws AdvertiseNotFound;
+    void deleteById(Long id) throws AdvertiseNotFound;
 
 }
