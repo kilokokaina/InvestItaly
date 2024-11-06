@@ -25,6 +25,7 @@ public class Advertise {
 
     private float square;
     private float pricePerSquare;
+    private float totalPrice;
 
     private int bedroomCount;
     private int bathroomCount;

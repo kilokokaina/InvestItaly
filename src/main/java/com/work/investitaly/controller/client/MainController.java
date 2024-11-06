@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.DecimalFormat;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,6 +38,13 @@ public class MainController {
     @GetMapping("catalog")
     public String catalog(@RequestParam(name = "type", required = false) RealEstateType type, Model model) {
         var advertises = advertiseService.findAll();
+        var priceFormatMap = new HashMap<Advertise, String>();
+
+        advertises.sort((first, second) -> {
+            if (first.getDate().getTime() > second.getDate().getTime()) return 1;
+            else if (first.getDate() == second.getDate()) return 0;
+            else return -1;
+        });
 
         if (type != null) {
             switch (type) {
@@ -45,6 +54,12 @@ public class MainController {
                         advertise.getType().equals(RealEstateType.COMMERCIAL)).toList();
             }
         }
+
+        advertises.forEach(advertise ->
+                priceFormatMap.put(advertise, new DecimalFormat("###,###.##").format(advertise.getTotalPrice()))
+        );
+
+        model.addAttribute("priceFormat", priceFormatMap);
         model.addAttribute("advertises", advertises);
 
         return "catalog";
@@ -56,6 +71,9 @@ public class MainController {
         photos = photos.stream().sorted(Comparator.comparing(FileModel::getFileName))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
+        model.addAttribute("priceFormat",
+                new DecimalFormat("###,###.##").format(advertise.getTotalPrice())
+        );
         model.addAttribute("advertise", advertise);
         model.addAttribute("photos", photos);
 

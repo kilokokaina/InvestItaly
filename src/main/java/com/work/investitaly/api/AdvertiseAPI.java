@@ -44,6 +44,7 @@ public class AdvertiseAPI {
         advertise.setPlacement(advertiseDTO.getAddress());
         advertise.setSquare(advertiseDTO.getSquare());
         advertise.setPricePerSquare(advertiseDTO.getPrice());
+        advertise.setTotalPrice(advertiseDTO.getPrice() * advertiseDTO.getSquare());
         advertise.setBedroomCount(advertiseDTO.getBedroom());
         advertise.setBathroomCount(advertiseDTO.getBathroom());
     }
