@@ -85,6 +85,51 @@
         </header>
 
         <main>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Оставить заявку</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Оставьте заявку и мы свяжемся с Вами в ближайшее время!
+                            <div class="form-control">
+                                <div class="mb-3">
+                                    <label for="customerName" class="form-label">Как вас зовут?</label>
+                                    <input type="email" class="form-control" id="customerName" placeholder="Имя...">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="customerEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="customerEmail" placeholder="name@example.ru">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="customerPhone" class="form-label">Номер телефона</label>
+                                    <input type="text" class="form-control" id="customerPhone" placeholder="+12345678910">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">ОК</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="imageViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <!-- Full screen modal -->
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="" id="fullImage" class="img-fluid" alt="...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasRightLabel">Все фотографии</h5>
@@ -93,8 +138,8 @@
                 <div class="offcanvas-body">
                     <div class="row row-cols-1 row-cols-sm-2 g-2">
                         <div class="col" th:each="image : ${photos}">
-                            <a th:href="'/img/' + ${image.getFileName()}">
-                                <img th:src="'/img/' + ${image.getFileName()}" class="d-block w-100" alt="...">
+                            <a href="#">
+                                <img th:src="'/img/' + ${image.getFileName()}" class="d-block w-100" alt="..." onclick="setImage(this)">
                             </a>
                         </div>
                     </div>
@@ -190,7 +235,9 @@
                                     <h5 class="card-title">Джордж</h5>
                                     <a class="card-text" href="tel:+393272994672">+393272994672</a>
                                 </div>
-                                <button href="#" class="btn btn-primary">Связаться</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Связаться
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -304,6 +351,7 @@
         <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
         <script th:src="@{/resources/leaflet/leaflet.js}"></script>
         <script th:src="@{/resources/js/mapInit.js}"></script>
+        <script th:src="@{/resources/js/imageViewer.js}"></script>
         <script>
             const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
             const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))

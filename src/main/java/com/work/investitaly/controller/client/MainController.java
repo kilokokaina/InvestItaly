@@ -41,8 +41,8 @@ public class MainController {
         var priceFormatMap = new HashMap<Advertise, String>();
 
         advertises.sort((first, second) -> {
-            if (first.getDate().getTime() > second.getDate().getTime()) return 1;
-            else if (first.getDate() == second.getDate()) return 0;
+            if (first.getDate().before(second.getDate())) return 1;
+            else if (first.getDate().equals(second.getDate())) return 0;
             else return -1;
         });
 
