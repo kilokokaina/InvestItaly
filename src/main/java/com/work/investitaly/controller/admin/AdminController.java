@@ -3,6 +3,7 @@ package com.work.investitaly.controller.admin;
 import com.work.investitaly.dto.AdvertiseDTO;
 import com.work.investitaly.exception.AdvertiseNotFound;
 import com.work.investitaly.service.AdvertiseService;
+import com.work.investitaly.service.RequestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
 
     private final AdvertiseService advertiseService;
+    private final RequestService requestService;
 
     @Autowired
-    public AdminController(AdvertiseService advertiseService) {
+    public AdminController(AdvertiseService advertiseService, RequestService requestService) {
         this.advertiseService = advertiseService;
+        this.requestService = requestService;
     }
 
     @GetMapping
@@ -48,4 +51,9 @@ public class AdminController {
         return "admin/edit_advertise";
     }
 
+    @GetMapping("requests")
+    public String requests(Model model) {
+        model.addAttribute("requests", requestService.findAll());
+        return "admin/requests";
+    }
 }

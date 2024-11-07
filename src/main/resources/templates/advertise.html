@@ -49,6 +49,12 @@
             }
 
             #map { height: 320px; }
+
+            @media (max-width: 991px) {
+                .carousel-inner {
+                    height: 320px;
+                }
+            }
         </style>
     </head>
     <body>
@@ -85,11 +91,11 @@
         </header>
 
         <main>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Оставить заявку</h1>
+                            <h1 class="modal-title fs-5" id="requestModalLabel">Оставить заявку</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -110,7 +116,24 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">ОК</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="createRequest()">ОК</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="successModalLabel">Заявка уже у нас!</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body d-flex justify-content-center">
+                            Спасибо за Ваш интерес! Заявка уже поступаил к нам и скоро мы с Вами свяжемся!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Супер</button>
                         </div>
                     </div>
                 </div>
@@ -229,15 +252,17 @@
                         <div class="card mb-3">
                             <div id="map"></div>
                         </div>
-                        <div class="card text-center mb-3" style="width: 18rem;">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <h5 class="card-title">Джордж</h5>
-                                    <a class="card-text" href="tel:+393272994672">+393272994672</a>
+                        <div class="row d-flex justify-content-center">
+                            <div class="card text-center mb-3" style="width: 18rem;">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Джордж</h5>
+                                        <a class="card-text" href="tel:+393272994672">+393272994672</a>
+                                    </div>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#requestModal">
+                                        Связаться
+                                    </button>
                                 </div>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Связаться
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -352,6 +377,7 @@
         <script th:src="@{/resources/leaflet/leaflet.js}"></script>
         <script th:src="@{/resources/js/mapInit.js}"></script>
         <script th:src="@{/resources/js/imageViewer.js}"></script>
+        <script th:src="@{/resources/js/api/requestApi.js}"></script>
         <script>
             const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
             const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))

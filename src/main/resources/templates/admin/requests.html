@@ -107,7 +107,7 @@
                         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                                    <a class="nav-link d-flex align-items-center gap-2" aria-current="page" th:href="@{/admin}">
                                         <svg class="bi"><use xlink:href="#house-fill"/></svg>
                                         Все объявления
                                     </a>
@@ -119,7 +119,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center gap-2" th:href="@{/admin/requests}">
+                                    <a class="nav-link d-flex align-items-center gap-2 active" href="#">
                                         <svg class="bi"><use xlink:href="#people"/></svg>
                                         Заявки
                                     </a>
@@ -142,19 +142,21 @@
 
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Все объявления</h1>
+                        <h1 class="h2">Заявки</h1>
                     </div>
 
                     <div class="container">
-                        <div class="row" th:each="advertise : ${advertises}">
-                            <div class="col">
-                                <div class="card mb-3">
-                                    <h6 class="card-header" th:text="${advertise.getTitle()}" />
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            <div class="col" th:each="request : ${requests}">
+                                <div class="card shadow">
                                     <div class="card-body">
-                                        <h6 class="card-title" th:text="${advertise.getPlacement()}" />
-                                        <p class="card-text" th:text="${'Квадратура: ' + advertise.getSquare() + ', стоимость: ' + advertise.getPricePerSquare()}" />
-                                        <a th:href="'/admin/edit_advertise?id=' + ${advertise.getId()}" class="btn btn-primary">Изменить</a>
-                                        <a th:id="'deleteButton-' + ${advertise.getId()}" class="btn btn-danger" onclick="deleteAdvertise(this)">Удалить</a>
+                                        <h5 class="card-title" th:text="${request.getCustomerName()}" />
+                                        <p class="card-text" th:text="${request.getCustomerEmail()}"/>
+                                        <p class="card-text" th:text="${request.getCustomerPhone()}"/>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-body-secondary" th:text="${request.getDate()}" />
+                                        </div>
+                                        <a th:href="'/advertise/' + ${request.getAdvertiseId()}" class="btn btn-primary">Обявление</a>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +167,6 @@
         </div>
 
         <script th:src="@{/resources/assets/dist/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/resources/js/api/advertiseApi.js}"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script>
     </body>
 </html>
