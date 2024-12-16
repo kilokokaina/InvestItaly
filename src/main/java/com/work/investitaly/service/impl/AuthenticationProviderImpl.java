@@ -32,7 +32,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
         if (userDetails == null || !userDetails.getPassword().equals(password)) return null;
 
-        log.info("Username: " + username + ", IP: " + request.getRemoteAddr());
+        log.info("Username: {}, IP: {}", username, request.getRemoteAddr());
 
         return new UsernamePasswordAuthenticationToken(
                 username, password, userDetails.getAuthorities()

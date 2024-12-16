@@ -1,6 +1,6 @@
 function createRequest() {
     const successModal = new bootstrap.Modal('#successModal');
-    let advertiseId = window.location.href.split('advertise/')[1];
+    let advertiseId = window.location.href.split('advertise/')[1].replace('#', '');
 
     let requestData = {
         'customerName': document.querySelector('#customerName').value,
